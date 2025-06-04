@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>>_ twigform</title>
+        <link rel="icon" type="image/x-icon" href="favi.png">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+    <body>
+        <div class="terminal-window">
+            <div class="terminal-buttons">
+                <button class="terminal-button close-btn" title="Close"></button>
+                <button class="terminal-button minimize-btn" title="Minimize"></button>
+                <button class="terminal-button maximize-btn" title="Maximize"></button>
+            </div>
+            
+            <div class="terminal-header">
+                <span class="user">user</span><span class="prompt">@</span><span class="host">twigform</span><span class="prompt">:~$</span> xdg-open twigsdomain.com
+            </div>
+            
+            <div class="ascii-art">
+ _            _        __                      
+| |___      _(_) __ _ / _| ___  _ __ _ __ ___  
+| __\ \ /\ / / |/ _` | |_ / _ \| '__| '_ ` _ \ 
+| |_ \ V  V /| | (_| |  _| (_) | |  | | | | | |
+ \__| \_/\_/ |_|\__, |_|  \___/|_|  |_| |_| |_|
+                |___/                          
+            </div>
+            
+            <div class="content">
+                <span class="prompt">❯</span> Welcome to my house!<br>
+                <span class="prompt">❯</span> Type <span class="highlight">help</span> to see available commands<br>
+                <br>
+                <div id="output"></div>
+                <div class="current-line">
+                    <span class="user">user</span><span class="prompt">@</span><span class="host">twigform</span><span class="prompt">:~$</span>
+                    <div class="current-input">
+                        <div class="inline-suggestion" id="inlineSuggestion"></div>
+                        <input type="text" class="input-field" id="commandInput" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="corner-svg-container" tabindex="0">
+            <div class="social-icons">
+                <a href="https://x.com/twiiiig_" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/twigform" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="https://bsky.app/profile/twigform.bsky.social" class="social-icon" title="Bluesky">
+                    <svg width="22" height="20" viewBox="0 0 600 530" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                        <path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z" fill="currentColor"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon" id="discordStatusButton"><i class="fab fa-discord"></i></a>
+            </div>
+            
+            <svg class="corner-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 973.09 930.05">
+                <path style="fill:#cba6f7;stroke-width:0px;" d="m973.09,465.03c0,48.71-76,84.81-90.27,128.76-14.79,45.55,24.96,119.34-2.63,157.25-27.87,38.3-110.51,23.15-148.81,51.02-37.92,27.6-48.89,111.02-94.45,125.81-43.95,14.27-101.67-46.3-150.38-46.3s-106.43,60.58-150.38,46.3-56.53-98.22-94.45-125.81c-38.3-27.87-120.94-12.72-148.81-51.02-27.6-37.92,12.16-111.7-2.63-157.25C76,549.84,0,513.74,0,465.03s76-84.81,90.27-128.76-24.96-119.34,2.63-157.25c27.87-38.3,110.51-23.15,148.81-51.02S290.61,16.97,336.16,2.18c43.95-14.27,101.67,46.3,150.38,46.3S592.97-12.09,636.92,2.18c45.55,14.79,56.53,98.22,94.45,125.81,38.3,27.87,120.94,12.72,148.81,51.02,27.6,37.92-12.16,111.7,2.63,157.25,14.27,43.95,90.27,80.05,90.27,128.76Z"/>
+            </svg>
+        </div>
+        
+        <div class="discord-status-modal" id="discordStatusModal">
+            <div class="discord-status-header">
+                <img id="discordAvatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Avatar" class="discord-avatar">
+                <div class="discord-user-info">
+                    <h3 id="discordUsername">Loading...</h3>
+                    <div class="discord-status-badge">Developer</div>
+                </div>
+            </div>
+            
+            <div class="discord-status-content">
+                <div class="discord-status-item">
+                    <div class="discord-status-icon">
+                        <span id="discordStatusIndicator" class="discord-status-indicator status-offline"></span>
+                    </div>
+                    <div class="discord-status-text">
+                        <div class="discord-status-label">Status</div>
+                        <div class="discord-status-value" id="discordStatusText">Offline</div>
+                    </div>
+                </div>
+                
+                <div id="discordSpotifySection" class="discord-spotify-section" style="display: none;">
+                    <div class="discord-status-item">
+                        <div class="discord-status-icon">
+                            <i class="fab fa-spotify" style="color: #1DB954;"></i>
+                        </div>
+                        <div class="discord-status-text">
+                            <div class="discord-status-label">Listening to</div>
+                            <div class="discord-status-value">Spotify</div>
+                        </div>
+                    </div>
+                    <div class="discord-spotify-info">
+                        <img id="discordSpotifyAlbum" src="" alt="Album Art" class="discord-spotify-album">
+                        <div class="discord-spotify-details">
+                            <div class="discord-spotify-song" id="discordSpotifySong">Song Name</div>
+                            <div class="discord-spotify-artist" id="discordSpotifyArtist">Artist Name</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="discordGameSection" class="discord-game-section" style="display: none;">
+                    <div class="discord-status-item">
+                        <div class="discord-status-icon">
+                            <i class="fas fa-gamepad" style="color: var(--blue);"></i>
+                        </div>
+                        <div class="discord-status-text">
+                            <div class="discord-status-label">Playing</div>
+                            <div class="discord-status-value" id="discordGameName">Game Name</div>
+                        </div>
+                    </div>
+                    <div class="discord-game-details" id="discordGameDetails"></div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="script.js"></script>
+    </body>
+</html>
